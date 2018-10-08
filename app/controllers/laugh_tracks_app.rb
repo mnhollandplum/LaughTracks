@@ -2,8 +2,14 @@ class LaughTracksApp < Sinatra::Base
   set :method_override, true
 
   get '/comedians' do
-    @comedians = Comedian.all
-    @specials = Special.all
+    if params[:age]
+     @comedians = Comedian.where(age: params[:age])
+     ids = @comedians.pluck(:id)
+     @specials = Special.find_specials(ids)
+   else
+     @comedians = Comedian.all
+     @specials = Special.all
+   end
     @cities = @comedians.uniq_cities
     erb :'comedians/index'
   end
