@@ -5,4 +5,8 @@ class Special < ActiveRecord::Base
   def self.average_length
     average(:run_time)
   end
+
+  def self.find_specials(ids)
+    Special.where(comedian_id: ids)
+  end
 end
